@@ -1,1 +1,1 @@
-# albums w/ mysql
+# band w/ mysql

@@ -6,8 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./controllers/index');
 
 var app = express();
 
@@ -15,6 +14,7 @@ var app = express();
 var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('views', path.join(__dirname, 'views/pages'));
+app.set('view engine', 'html');
 
 
 // uncomment after placing your favicon in /public
@@ -25,8 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/', index.show);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

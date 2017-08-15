@@ -1,0 +1,16 @@
+#cli install
+npm install -g sequelize-cli
+
+#create .sequelizerc & write configure
+
+#init
+sequelize init
+
+#create user model
+sequelize model:create --name User --attrivutes "name:string, email:string"
+
+
+
+#migrate
+# before install mysql (npm install mysql)
+sequelize db:migrate
