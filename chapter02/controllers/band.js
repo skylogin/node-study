@@ -3,7 +3,7 @@ var Band = require('../models/band');
 
 exports.create = function(req, res){
   //create Band model having request body
-  models.Band.create({}).then(function(band){
+  models.Band.create(req.body).then(function(band){
     // res.json(band);
     res.redirect('/bands');
   });
@@ -11,9 +11,9 @@ exports.create = function(req, res){
 
 exports.list = function(req, res){
   //total Band list
-  models.User.findAll({
+  models.Band.findAll({
     //sort by Date
-    order: 'createAt DESC'
+    order: 'createdAt DESC'
   }).then(function(bands){
     // res.json(bands);
     res.render('band-list', {
