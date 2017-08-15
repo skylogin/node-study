@@ -19,6 +19,7 @@ var flash = require('connect-flash');
 //routes
 var index = require('./server/routes/index');
 var users = require('./server/routes/users');
+var comments = require('./server/controllers/comments');
 
 
 var app = express();
@@ -30,8 +31,14 @@ app.set('view engine', 'ejs');
 
 //setup database
 var config = require('./server/config/config.js');
-
-
+//connect database
+mongoose.connect(config.url);
+//check the runtime environment(mongoDB)
+mongoose.connection.on('error', function(){
+  console.error('MongoDB connection Error. Make sure MongoDB is running');
+});
+//setup passport
+require('./server/config/passport')(passport);
 
 
 // uncomment after placing your favicon in /public
@@ -48,8 +55,30 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//private key for session by passport
+app.use(session({
+  secret: config.secretKey,
+  saveUninitialized: true,
+  resave: true,
+  //save the session to mongoDB using the express-session and connect-mongo
+  store: new MongoStore({
+    url: config.url,
+    collection: 'sessions'
+  })
+}));
+
+//passport authentication init
+app.use(passport.initialize());
+//forever login session
+app.use(passport.session());
+//flash message
+app.use(flash());
+
+
 app.use('/', index);
 app.use('/users', users);
+app.get('/comments', comments.hasAuthorization, comments.list);
+app.post('/comments', comments.hasAuthorization, comments.create);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
