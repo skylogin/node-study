@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
+  <% include ../partials/stylesheet %>
 </head>
 <body>
   <% include ../partials/header %>
   <div class="container">
-    <% if(message.length > 0) %>
+    <% if(message.length > 0){ %>
       <div class="alert alert-warning" role="alert">
         <strong>Warning!</strong> <%=message %>.
       </div>

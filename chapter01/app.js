@@ -32,11 +32,16 @@ app.set('view engine', 'ejs');
 //setup database
 var config = require('./server/config/config.js');
 //connect database
-mongoose.connect(config.url);
+// mongoose.connect(config.url);
 //check the runtime environment(mongoDB)
-mongoose.connection.on('error', function(){
-  console.error('MongoDB connection Error. Make sure MongoDB is running');
+// mongoose.connection.on('error', function(){
+//   console.error('MongoDB connection Error. Make sure MongoDB is running');
+// });
+var promise = mongoose.connect(config.url, {
+  useMongoClient: true,
 });
+
+
 //setup passport
 require('./server/config/passport')(passport);
 
@@ -98,9 +103,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
-
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + server.address().port);
 });
+
+module.exports = app;
