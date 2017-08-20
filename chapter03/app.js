@@ -15,21 +15,26 @@ var multer = require('multer');
 var upload = multer({
   dest: './public/uploads/',
   limits: {
-    fileSize: 1000000,
+    fileSize: 5000000,
     files: 1
   }
 });
 
 var app = express();
 app.set('views', path.join(__dirname, 'server/views/pages'));
-app.set('vie engine', 'ejs');
+app.set('view engine', 'ejs');
 
 //database setup
 var config = require('./server/config/config.js');
-mongoose.connect(config.url);
-mongoose.connection.on('error', function(){
-  console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+// mongoose.connect(config.url);
+// mongoose.connection.on('error', function(){
+//   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+// });
+var promise = mongoose.connect(config.url, {
+  useMongoClient: true,
 });
+
+
 
 //passport setup
 require('./server/config/passport')(passport);
@@ -37,7 +42,7 @@ require('./server/config/passport')(passport);
 //middleware setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
@@ -51,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //session secret key for passport
 app.use(session({
-  secret: 'sometextgohere',
+  secret: config.secretKey,
   saveUninitialized: true,
   resave: true,
   store: new MongoStore({
@@ -66,9 +71,9 @@ app.use(flash());
 
 //routes
 var index = require('./server/controllers/index');
-var auth = require('./server/controller/auth');
-var comments = require('./server/controller/comments');
-var videos = require('./server/controller/videos');
+var auth = require('./server/controllers/auth');
+var comments = require('./server/controllers/comments');
+var videos = require('./server/controllers/videos');
 var images = require('./server/controllers/images');
 
 app.get('/', index.show);
@@ -79,13 +84,13 @@ app.post('/login', passport.authenticate('local-login', {
   failureFlash: true
 }));
 app.get('/signup', auth.signup);
-app.post('/signup', passport.authenticat('local-signup', {
+app.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
   failureRedirect: '/signup',
   failureFlash: true
 }));
 app.get('/profile', auth.isLoggedIn, auth.profile);
-app.get('logout', function(req, res){
+app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
@@ -93,7 +98,7 @@ app.get('/comments', comments.hasAuthorization, comments.list);
 app.post('/comments', comments.hasAuthorization, comments.create);
 app.get('/videos', videos.hasAuthorization, videos.show);
 app.post('/videos', videos.hasAuthorization, upload.single('video'), videos.uploadVideo);
-app.get('/images', images.hasAuthorization, images.show);
+app.get('/images-gallery', images.hasAuthorization, images.show);
 app.post('/images', images.hasAuthorization, upload.single('image'), images.uploadImage);
 
 
@@ -121,6 +126,10 @@ if(app.get('env') === 'development'){
     });
   });
 }
+
+app.listen(3000, function () {
+  console.log('Server start on port 3000!');
+});
 
 
 module.exports = app;

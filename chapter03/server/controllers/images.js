@@ -23,7 +23,7 @@ exports.show = function(req, res){
 exports.uploadImage = function(req, res){
   var src, dest, targetPath, targetName;
   var tempPath = req.file.path;
-  var type = mime.looup(req.file.mimetype);
+  var type = mime.lookup(req.file.mimetype);
   var extension = req.file.path.split(/[. ]+/).pop();
 
   if(IMAGE_TYPES.indexOf(type) == -1){
@@ -45,10 +45,11 @@ exports.uploadImage = function(req, res){
 
   src.on('end', function(){
     var image = new Images(req.body);
-    image.imageName = req.file.orifinalname;
+    image.imageName = req.file.originalname;
     image.user = req.user;
+
     image.save(function(error){
-      if(erorr){
+      if(error){
         return res.status(400).send({
           message: error
         });

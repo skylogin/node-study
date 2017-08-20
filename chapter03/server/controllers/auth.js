@@ -18,13 +18,13 @@ exports.signup = function(req, res){
 exports.profile = function(req, res){
   res.render('profile', {
     title: 'Profile Page',
-    user: req.user
+    user: req.user,
     avatar: gravatar.url(req.user.email, { s: '100', r: 'x', d: 'retro' }, true)
   });
 };
 
-exports.logout = function(reqm res){
-  req.logour();
+exports.logout = function(req, res){
+  req.logout();
   res.redirect('/');
 };
 

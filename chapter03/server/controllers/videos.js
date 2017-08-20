@@ -2,17 +2,17 @@ var fs = require('fs');
 var mime = require('mime');
 var gravatar = require('gravatar');
 var Videos = require('../models/videos');
-var VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg', 'vido/ogv'], ;
+var VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg', 'vido/ogv'];
 
 exports.show = function(req, res){
-  Videos.find().sort('-created').populate('user', 'local.email').exec(function(error, images){
+  Videos.find().sort('-created').populate('user', 'local.email').exec(function(error, videos){
     if(error){
       return res.status(400).send({
         message: error
       });
     }
 
-    res.render('video', {
+    res.render('videos', {
       title: 'Videos Page',
       videos: videos,
       gravatar: gravatar.url(videos.email, { s:'80', r:'x', d:'retro' }, true)
@@ -23,7 +23,7 @@ exports.show = function(req, res){
 exports.uploadVideo = function(req, res){
   var src, dest, targetPath, targetName;
   var tempPath = req.file.path;
-  var type = mime.looup(req.file.mimetype);
+  var type = mime.lookup(req.file.mimetype);
   var extension = req.file.path.split(/[. ]+/).pop();
 
   if(VIDEO_TYPES.indexOf(type) == -1){
@@ -48,7 +48,7 @@ exports.uploadVideo = function(req, res){
     video.imageName = req.file.orifinalname;
     video.user = req.user;
     video.save(function(error){
-      if(erorr){
+      if(error){
         return res.status(400).send({
           message: error
         });
@@ -57,7 +57,9 @@ exports.uploadVideo = function(req, res){
 
     fs.unlink(tempPath, function(err){
       if(err){
-        return res.status(500).send({'Woh, something bad happened here'});
+        return res.status(500).send({
+          message: err
+        });
       }
       res.redirect('videos');
     });
