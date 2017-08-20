@@ -1,1 +1,1 @@
-# picture&video upload
+# image&video upload w/ mongoDB
