@@ -1,0 +1,13 @@
+#install generator-express
+npm install -g generator-express
+
+#using yo
+yo express
+
+#config yo
+N - no create project directory
+MVC - application type
+Swig - template engine
+None - css
+None - database
+Gulp - liveReload
