@@ -1,0 +1,6 @@
+? Would you like to create a new directory for your project? No
+? Select a version to install: MVC
+? Select a view engine to use: Swig
+? Select a css preprocessor to use (Sass Requires Ruby): None
+? Select a database to use: MongoDB
+? Select a build tool to use: Gulp
