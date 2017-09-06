@@ -38,3 +38,6 @@ npm-debug.log
 */public/images
 */public/uploads
 */public/videos
+
+#chapter5 google api key
+chapter05/app/views/partials/head.html
