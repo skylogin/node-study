@@ -1,0 +1,110 @@
+#install
+npm install strongloop -g
+
+#command
+slc loopback
+
+#command-option
+application name
+directory name
+2.xx
+empty-server (An empty LoopBack API, without any configured models or datasources)
+
+
+#modeling
+slc loopback:model
+
+#modeling-options
+? 모델 이름 입력: motorcycle
+? 모델 기본 클래스 선택 PersistedModel
+? REST API를 통해 motorcycle을(를) 노출합니까? Yes
+? 사용자 정의 복수형 양식(REST URL 빌드에 사용됨): motorcycles
+? 공통 모델 또는 서버만 해당? 공통
+
+? 특성 이름: image
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 motorcycle 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: make
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 motorcycle 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: description
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 motorcycle 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: model
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 motorcycle 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: catecory
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 motorcycle 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: year
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+
+#modeling
+slc loopback:model
+
+#modeling-option
+? 모델 이름 입력: review
+? 모델 기본 클래스 선택 PersistedModel
+? REST API를 통해 review을(를) 노출합니까? Yes
+? 사용자 정의 복수형 양식(REST URL 빌드에 사용됨): reviews
+? 공통 모델 또는 서버만 해당? 공통
+지금 일부 review 특성을 추가하십시오.
+
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: name
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 review 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: email
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+다른 review 특성을 추가하십시오.
+완료된 경우 비어 있는 특성 이름을 입력하십시오.
+? 특성 이름: review
+? 특성 유형: string
+? 필수 여부 Yes
+? 기본값[없는 경우 공백으로 두기]:
+
+
+#datasource
+slc loopback:datasource
+
+#datasource-option
+? 데이터 소스 이름 입력: motorcycleDataSource
+? motorcycleDataSource에 대한 커넥터 선택: MongoDB (StrongLoop에서 지원됨)
+커넥터 특정 구성:
+? Connection String url to override other settings (eg: mongodb://username:password@hostname:port/database):
+? host: localhost
+? port: 27017
+? user:
+? password:
+? database: motorcycle-feedback
+? loopback-connector-mongodb@^1.4 설치 Yes
